@@ -1,0 +1,92 @@
+CREATE TABLE Passenger (
+    pid INT PRIMARY KEY,
+    pname VARCHAR(50),
+    pgender CHAR(1),
+    city VARCHAR(50)
+);
+
+CREATE TABLE Agency (
+    aid INT PRIMARY KEY,
+    aname VARCHAR(50),
+    city VARCHAR(50)
+);
+
+CREATE TABLE Flight (
+    tid INT PRIMARY KEY,
+    tdate DATE,
+    time TIME,
+    src VARCHAR(50),
+    dest VARCHAR(50)
+);
+
+CREATE TABLE Booking (
+    pid INT,
+    aid INT,
+    tid INT,
+    fdate DATE,
+    PRIMARY KEY (pid, aid, tid),
+    FOREIGN KEY (pid) REFERENCES Passenger(pid),
+    FOREIGN KEY (aid) REFERENCES Agency(aid),
+    FOREIGN KEY (tid) REFERENCES Flight(tid)
+);
+
+
+-- Insert data into Passenger
+INSERT INTO Passenger (pid, pname, pgender, city) VALUES
+(1, 'Alice', 'F', 'Chittagong'),
+(2, 'Bob', 'M', 'Dhaka'),
+(3, 'Charlie', 'M', 'Barishal'),
+(4, 'Diana', 'F', 'Chittagong'),
+(5, 'Eve', 'F', 'Sylhet');
+
+-- Insert data into Agency
+INSERT INTO Agency (aid, aname, city) VALUES
+(1, 'TravelCo', 'Dhaka'),
+(2, 'SkyTours', 'Chittagong'),
+(3, 'FlyFast', 'Barishal'),
+(4, 'JetAway', 'Dhaka');
+
+-- Insert data into Flight
+INSERT INTO Flight (tid, tdate, time, src, dest) VALUES
+(1, '2023-05-21', '08:00:00', 'Dhaka', 'Chittagong'),
+(2, '2023-06-15', '10:30:00', 'Barishal', 'Dhaka'),
+(3, '2023-09-01', '13:15:00', 'Sylhet', 'Chittagong'),
+(4, '2023-12-01', '09:00:00', 'Dhaka', 'Barishal'),
+(5, '2023-12-13', '17:00:00', 'Chittagong', 'Sylhet');
+
+-- Insert data into Booking
+INSERT INTO Booking (pid, aid, tid, fdate) VALUES
+(1, 1, 1, '2023-05-21'),
+(2, 2, 2, '2023-06-15'),
+(3, 3, 3, '2023-09-01'),
+(4, 1, 4, '2023-12-01'),
+(5, 2, 5, '2023-12-13');
+
+
+Find all the customers' names from Chittagong.
+SELECT pname
+FROM Passenger
+WHERE city = 'Chittagong';
+
+
+Find the agencies from cities Dhaka, Barishal, or Chittagong.
+SELECT aname
+FROM Agency
+WHERE city IN ('Dhaka', 'Barishal', 'Chittagong');
+
+
+Find the flights between date 21/05/23 and 13/12/23.
+SELECT *
+FROM Flight
+WHERE tdate BETWEEN '2023-05-21' AND '2023-12-13';
+
+
+Order the flights in descending order by date.
+SELECT *
+FROM Flight
+ORDER BY tdate DESC;
+
+
+Find the distinct cities of passengers.
+SELECT DISTINCT city
+FROM Passenger;
