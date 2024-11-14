@@ -1,0 +1,91 @@
+-- Table: Emp (Employee)
+CREATE TABLE Emp (
+    eno INT PRIMARY KEY,
+    emane VARCHAR(50),
+    bdate DATE,
+    title VARCHAR(50),
+    salary DECIMAL(10, 2),
+    dno INT,
+    FOREIGN KEY (dno) REFERENCES Dept(dno)
+);
+
+-- Table: Dept (Department)
+CREATE TABLE Dept (
+    dno INT PRIMARY KEY,
+    dname VARCHAR(50)
+);
+
+-- Table: Proj (Project)
+CREATE TABLE Proj (
+    pno INT PRIMARY KEY,
+    pname VARCHAR(50),
+    budget DECIMAL(10, 2),
+    dno INT,
+    FOREIGN KEY (dno) REFERENCES Dept(dno)
+);
+
+-- Table: Workson
+CREATE TABLE Workson (
+    eno INT,
+    pno INT,
+    resp VARCHAR(50),
+    hours DECIMAL(5, 2),
+    FOREIGN KEY (eno) REFERENCES Emp(eno),
+    FOREIGN KEY (pno) REFERENCES Proj(pno),
+    PRIMARY KEY (eno, pno)
+);
+########################### insert data ##########################################
+Insert Values for Dept Table
+INSERT INTO Dept (dno, dname) VALUES
+(1, 'Human Resources'),
+(2, 'Engineering'),
+(3, 'Marketing'),
+(4, 'Finance');
+
+Insert Values for Emp Table
+INSERT INTO Emp (eno, emane, bdate, title, salary, dno) VALUES
+(101, 'Alice Johnson', '1985-04-12', 'Manager', 55000, 1),
+(102, 'Bob Smith', '1990-09-23', 'EE', 32000, 2),
+(103, 'Charlie Lee', '1988-11-02', 'SA', 36000, 2),
+(104, 'Diana Prince', '1992-06-30', 'Manager', 58000, 3),
+(105, 'Evan White', '1983-03-11', 'SA', 29000, 4);
+
+Insert Values for Proj Table
+INSERT INTO Proj (pno, pname, budget, dno) VALUES
+(201, 'Project Alpha', 10000, 2),
+(202, 'Project Beta', 18000, 2),
+(203, 'Project Gamma', 25000, 3),
+(204, 'Project Delta', 15000, 4),
+(205, 'Project Epsilon', 7000, 1);
+
+Insert Values for Workson Table
+INSERT INTO Workson (eno, pno, resp, hours) VALUES
+(101, 201, 'Manager', 15),
+(102, 202, 'Engineer', 8),
+(103, 203, 'Senior Analyst', 20),
+(104, 204, 'Manager', 9),
+(105, 205, 'Analyst', 12);
+
+
+
+Query to return all records from Workson where hours worked are less than 10 and responsibility is "Manager":
+
+SELECT * 
+FROM Workson 
+WHERE hours < 10 AND resp = 'Manager';
+Query to return the employees (name and number only) who have a title of "EE" or "SA" and make more than $30,000:
+
+SELECT emane, eno 
+FROM Emp 
+WHERE title IN ('EE', 'SA') AND salary > 30000;
+Query to return all departments (all fields) ordered by department name in ascending order:
+
+SELECT * 
+FROM Dept 
+ORDER BY dname ASC;
+Query to return the project name, department name, and budget for all projects with a budget between $5,000 and $20,000:
+
+SELECT Proj.pname, Dept.dname, Proj.budget 
+FROM Proj 
+JOIN Dept ON Proj.dno = Dept.dno 
+WHERE Proj.budget BETWEEN 5000 AND 20000;
