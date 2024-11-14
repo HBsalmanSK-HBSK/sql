@@ -1,0 +1,81 @@
+company
+
+CREATE TABLE lives (
+    Pid INT PRIMARY KEY,
+    person VARCHAR(100),
+    name VARCHAR(100),
+    street VARCHAR(100),
+    city VARCHAR(100)
+);
+
+CREATE TABLE works (
+    person_name VARCHAR(100),
+    company_name VARCHAR(100),
+    salary DECIMAL(10, 2)
+);
+
+CREATE TABLE locatedin (
+    cid INT PRIMARY KEY,
+    company_name VARCHAR(100),
+    city VARCHAR(100)
+);
+
+CREATE TABLE manages (
+    person_name VARCHAR(100),
+    manager_name VARCHAR(100)
+);
+
+
+-- Insert sample data for 'lives' table
+INSERT INTO lives (Pid, person, name, street, city)
+VALUES 
+(5001, 'John Doe', 'Doe', '123 Elm St', 'New York'),
+(5002, 'Jane Smith', 'Smith', '456 Oak St', 'Los Angeles'),
+(5003, 'Michael Brown', 'Brown', '789 Pine St', 'Chicago');
+
+-- Insert sample data for 'works' table
+INSERT INTO works (person_name, company_name, salary)
+VALUES 
+('John Doe', 'City Bank', 3000),
+('Jane Smith', 'Tech Corp', 4500),
+('Michael Brown', 'City Bank', 2000),
+('Sara White', 'City Bank', 1500),
+('David Johnson', 'Tech Corp', 1200);
+
+-- Insert sample data for 'locatedin' table
+INSERT INTO locatedin (cid, company_name, city)
+VALUES 
+(1, 'City Bank', 'New York'),
+(2, 'Tech Corp', 'Los Angeles');
+
+-- Insert sample data for 'manages' table
+INSERT INTO manages (person_name, manager_name)
+VALUES 
+('John Doe', 'Sara White'),
+('Jane Smith', 'David Johnson');
+
+
+
+1. Find the Min, Max, and Avg Salary of Employees Who Work in City Bank
+SELECT 
+    MIN(salary) AS min_salary,
+    MAX(salary) AS max_salary,
+    AVG(salary) AS avg_salary
+FROM works
+WHERE company_name = 'City Bank';
+
+
+2. Update the Person's City and Last Name of ID 5001
+UPDATE lives
+SET city = 'San Francisco', name = 'Johnson'
+WHERE Pid = 5001;
+
+
+3. Count the Total Companies Included in the Works Table
+SELECT COUNT(DISTINCT company_name) AS total_companies
+FROM works;
+
+
+4. Delete the Person Name if Salary is Less Than 1000
+DELETE FROM works
+WHERE salary < 1000;
